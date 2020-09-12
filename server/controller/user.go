@@ -9,38 +9,38 @@ import (
 	"github.com/qbox/qvm-base/components/mysql"
 )
 
-type _Character struct{}
+type _User struct{}
 
-var CharacterController *_Character
+var UserController *_User
 
-// DescribeCharactersResponse 短信模板返回
-type DescribeCharactersResponse struct {
-	Items []*models.Character `json:"items"`
+// DescribeUserResponse 短信模板返回
+type DescribeUserResponse struct {
+	Items []*models.User `json:"items"`
 }
 
-func (_ *_Character) Index(c *gin.Context) {
+func (_ *_User) Index(c *gin.Context) {
 	var (
 		log      = logger.New(c)
 		database = mysql.GetBiz(log.ReqID())
 	)
 
-	characters := []*models.Character{}
+	user := []*models.User{}
 
-	if err := database.Limit(1000).Find(&characters).Error; err != nil {
+	if err := database.Limit(1000).Find(&user).Error; err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, &DescribeCharactersResponse{
-		Items: characters,
+	c.JSON(http.StatusOK, &DescribeUserResponse{
+		Items: user,
 	})
 }
 
-func (_ *_Character) Create(c *gin.Context) {
+func (_ *_User) Create(c *gin.Context) {
 	var (
 		log      = logger.New(c)
 		database = mysql.GetBiz(log.ReqID())
-		args     = []models.Character{}
+		args     = []models.User{}
 	)
 
 	if err := c.BindJSON(&args); err != nil {
@@ -66,12 +66,12 @@ func (_ *_Character) Create(c *gin.Context) {
 	c.JSON(http.StatusCreated, args)
 }
 
-func (_ *_Character) Update(c *gin.Context) {
+func (_ *_User) Update(c *gin.Context) {
 	var (
 		log        = logger.New(c)
 		id         = c.Param("id")
 		updateData = map[string]interface{}{}
-		character  = models.Character{}
+		user       = models.User{}
 	)
 
 	if err := c.BindJSON(&updateData); err != nil {
@@ -80,11 +80,11 @@ func (_ *_Character) Update(c *gin.Context) {
 		return
 	}
 
-	database := mysql.GetBiz(log.ReqID()).Model(&character).Select([]string{
-		"unit_id",
-		"unit_name",
-		"icon",
-		"position",
+	database := mysql.GetBiz(log.ReqID()).Model(&user).Select([]string{
+		"user_name",
+		"user_uid",
+		"qq",
+		"box_id",
 	})
 	if err := database.Where("id = ?", id).Updates(updateData).Error; err != nil {
 		log.Error(err.Error())

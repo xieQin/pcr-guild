@@ -9,38 +9,50 @@ import (
 	"github.com/qbox/qvm-base/components/mysql"
 )
 
-type _Character struct{}
+type _Plan struct{}
 
-var CharacterController *_Character
+var PlanController *_Plan
 
-// DescribeCharactersResponse 短信模板返回
-type DescribeCharactersResponse struct {
-	Items []*models.Character `json:"items"`
+// DescribePlanResponse ...
+type DescribePlanResponse struct {
+	Items []*models.Plan `json:"items"`
 }
 
-func (_ *_Character) Index(c *gin.Context) {
+func (_ *_Plan) Index(c *gin.Context) {
 	var (
 		log      = logger.New(c)
 		database = mysql.GetBiz(log.ReqID())
 	)
 
-	characters := []*models.Character{}
+	plans := []*models.Plan{}
 
-	if err := database.Limit(1000).Find(&characters).Error; err != nil {
+	// 增加阵容关联关系
+	database = database.Preload("TeamInfo")
+	database = database.Preload("TeamInfo").Preload("TeamInfo.Characters")
+	database = database.Preload("TeamInfo").Preload("TeamInfo.Characters").Preload("TeamInfo.Characters.CharacterInfo")
+
+	// 增加boss关联关系
+	database = database.Preload("BossInfo")
+
+	// 增加阵容关联关系
+	database = database.Preload("AssistInfo")
+	database = database.Preload("AssistInfo").Preload("AssistInfo.CharacterInfo")
+
+	if err := database.Limit(1000).Find(&plans).Error; err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, &DescribeCharactersResponse{
-		Items: characters,
+	c.JSON(http.StatusOK, &DescribePlanResponse{
+		Items: plans,
 	})
 }
 
-func (_ *_Character) Create(c *gin.Context) {
+func (_ *_Plan) Create(c *gin.Context) {
 	var (
 		log      = logger.New(c)
 		database = mysql.GetBiz(log.ReqID())
-		args     = []models.Character{}
+		args     = []models.Plan{}
 	)
 
 	if err := c.BindJSON(&args); err != nil {
@@ -66,12 +78,12 @@ func (_ *_Character) Create(c *gin.Context) {
 	c.JSON(http.StatusCreated, args)
 }
 
-func (_ *_Character) Update(c *gin.Context) {
+func (_ *_Plan) Update(c *gin.Context) {
 	var (
 		log        = logger.New(c)
 		id         = c.Param("id")
 		updateData = map[string]interface{}{}
-		character  = models.Character{}
+		plan       = models.Plan{}
 	)
 
 	if err := c.BindJSON(&updateData); err != nil {
@@ -80,11 +92,19 @@ func (_ *_Character) Update(c *gin.Context) {
 		return
 	}
 
-	database := mysql.GetBiz(log.ReqID()).Model(&character).Select([]string{
-		"unit_id",
-		"unit_name",
-		"icon",
-		"position",
+	database := mysql.GetBiz(log.ReqID()).Model(&plan).Select([]string{
+		"battle_id",
+		"cycle",
+		"boss_num",
+		"boss_stage",
+		"damage",
+		"day",
+		"user_id",
+		"team_id",
+		"boss_id",
+		"assist_id",
+		"is_end",
+		"is_continue",
 	})
 	if err := database.Where("id = ?", id).Updates(updateData).Error; err != nil {
 		log.Error(err.Error())

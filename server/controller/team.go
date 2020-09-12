@@ -104,6 +104,36 @@ func (_ *_Team) Create(c *gin.Context) {
 	c.JSON(http.StatusCreated, arg)
 }
 
+func (_ *_Team) Update(c *gin.Context) {
+	var (
+		log        = logger.New(c)
+		tid        = c.Param("tid")
+		updateData = map[string]interface{}{}
+		team       = models.Team{}
+	)
+
+	if err := c.BindJSON(&updateData); err != nil {
+		log.Error(err.Error())
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	database := mysql.GetBiz(log.ReqID()).Model(&team).Select([]string{
+		"boss_num",
+		"boss_stage",
+		"team_name",
+		"target_damage",
+		"context",
+	})
+	if err := database.Where("id = ?", tid).Updates(updateData).Error; err != nil {
+		log.Error(err.Error())
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.Status(http.StatusOK)
+}
+
 func (_ *_Team) CreateCharacter(c *gin.Context) {
 	var (
 		log      = logger.New(c)
@@ -141,4 +171,42 @@ func (_ *_Team) CreateCharacter(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, args)
+}
+
+func (_ *_Team) UpdateCharacter(c *gin.Context) {
+	var (
+		log           = logger.New(c)
+		id            = c.Param("id")
+		updateData    = map[string]interface{}{}
+		teamCharacter = models.TeamCharacter{}
+	)
+
+	if err := c.BindJSON(&updateData); err != nil {
+		log.Error(err.Error())
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	database := mysql.GetBiz(log.ReqID()).Model(&teamCharacter).Select([]string{
+		"level",
+		"rarity",
+		"promotion",
+		"love_level",
+		"slot1",
+		"slot2",
+		"slot3",
+		"slot4",
+		"slot5",
+		"slot6",
+		"unique_equip_rank",
+		"team_id",
+		"character_id",
+	})
+	if err := database.Where("id = ?", id).Updates(updateData).Error; err != nil {
+		log.Error(err.Error())
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.Status(http.StatusOK)
 }

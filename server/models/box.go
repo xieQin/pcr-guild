@@ -2,7 +2,7 @@ package models
 
 // Box struct ...
 type Box struct {
-	ID                    int    `json:"id"`
+	ID                    int    `json:"id" gorm:"primary_key"`
 	UserID                int    `json:"userId"`
 	Server                string `json:"server"`
 	UnitID                int    `json:"unitId"`
@@ -38,4 +38,8 @@ type Box struct {
 	IsFinished      bool `json:"isFinished"`
 	Position        int  `json:"position"`
 	SearchAreaWidth int  `json:"searchAreaWidth"`
+}
+
+func (Box) TableName() string {
+	return "boxs"
 }
