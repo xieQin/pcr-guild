@@ -9,38 +9,50 @@ import (
 	"github.com/qbox/qvm-base/components/mysql"
 )
 
-type _Box struct{}
+type _Record struct{}
 
-var BoxController *_Box
+var RecordController *_Record
 
-// DescribeBoxResponse 短信模板返回
-type DescribeBoxResponse struct {
-	Items []*models.Box `json:"items"`
+// DescribeRecordResponse ...
+type DescribeRecordResponse struct {
+	Items []*models.Record `json:"items"`
 }
 
-func (_ *_Box) Index(c *gin.Context) {
+func (_ *_Record) Index(c *gin.Context) {
 	var (
 		log      = logger.New(c)
 		database = mysql.GetBiz(log.ReqID())
 	)
 
-	box := []*models.Box{}
+	records := []*models.Record{}
 
-	if err := database.Limit(1000).Find(&box).Error; err != nil {
+	// 增加阵容关联关系
+	database = database.Preload("TeamInfo")
+	database = database.Preload("TeamInfo").Preload("TeamInfo.Characters")
+	database = database.Preload("TeamInfo").Preload("TeamInfo.Characters").Preload("TeamInfo.Characters.CharacterInfo")
+
+	// 增加boss关联关系
+	database = database.Preload("BossInfo")
+
+	// 增加阵容关联关系
+	database = database.Preload("AssistInfo")
+	database = database.Preload("AssistInfo").Preload("AssistInfo.CharacterInfo")
+
+	if err := database.Limit(1000).Find(&records).Error; err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, &DescribeBoxResponse{
-		Items: box,
+	c.JSON(http.StatusOK, &DescribeRecordResponse{
+		Items: records,
 	})
 }
 
-func (_ *_Box) Create(c *gin.Context) {
+func (_ *_Record) Create(c *gin.Context) {
 	var (
 		log      = logger.New(c)
 		database = mysql.GetBiz(log.ReqID())
-		args     = []models.Box{}
+		args     = []models.Record{}
 	)
 
 	if err := c.BindJSON(&args); err != nil {
@@ -66,12 +78,12 @@ func (_ *_Box) Create(c *gin.Context) {
 	c.JSON(http.StatusCreated, args)
 }
 
-func (_ *_Box) Update(c *gin.Context) {
+func (_ *_Record) Update(c *gin.Context) {
 	var (
 		log        = logger.New(c)
 		id         = c.Param("id")
 		updateData = map[string]interface{}{}
-		box        = models.Box{}
+		record     = models.Record{}
 	)
 
 	if err := c.BindJSON(&updateData); err != nil {
@@ -80,32 +92,19 @@ func (_ *_Box) Update(c *gin.Context) {
 		return
 	}
 
-	database := mysql.GetBiz(log.ReqID()).Model(&box).Select([]string{
+	database := mysql.GetBiz(log.ReqID()).Model(&record).Select([]string{
+		"battle_id",
+		"cycle",
+		"boss_num",
+		"boss_stage",
+		"damage",
+		"day",
 		"user_id",
-		"server",
-		"unit_id",
-		"unit_name",
-		"trace",
-		"level",
-		"rarity",
-		"promotion",
-		"love_level",
-		"pieces",
-		"slot1",
-		"slot2",
-		"slot3",
-		"slot4",
-		"slot5",
-		"slot6",
-		"unique_equip_rank",
-		"icon",
-		"target_rarity",
-		"target_promotion",
-		"target_love_level",
-		"target_unique_equip_rank",
-		"is_finished",
-		"position",
-		"search_area_width",
+		"team_id",
+		"boss_id",
+		"assist_id",
+		"is_end",
+		"is_continue",
 	})
 	if err := database.Where("id = ?", id).Updates(updateData).Error; err != nil {
 		log.Error(err.Error())

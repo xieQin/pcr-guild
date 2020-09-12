@@ -53,6 +53,7 @@ func init() {
 		&models.Boss{},
 		&models.Plan{},
 		&models.User{},
+		&models.Box{},
 	)
 }
 
@@ -85,9 +86,17 @@ func main() {
 	api.POST("/plan", controller.PlanController.Create)
 	api.PUT("/plan/:id", controller.PlanController.Update)
 
+	api.GET("/record", controller.RecordController.Index)
+	api.POST("/record", controller.RecordController.Create)
+	api.PUT("/record/:id", controller.RecordController.Update)
+
 	api.GET("/user", controller.UserController.Index)
 	api.POST("/user", controller.UserController.Create)
 	api.PUT("/user/:id", controller.UserController.Update)
+
+	api.GET("/box", controller.BoxController.Index)
+	api.POST("/box", controller.BoxController.Create)
+	api.PUT("/box/:id", controller.BoxController.Update)
 
 	engine.Run(":9099")
 }
