@@ -6,7 +6,10 @@ type Plan struct {
 	TeamInfo struct {
 		Team []PlanTeam `json:"plan_team"`
 	} `json:"team_info"`
-	BossInfo Boss `json:"boss_info"`
+	BossInfo   Boss `json:"boss_info"`
+	AssistInfo struct {
+		Team Team
+	} `json:"assist_info"`
 }
 
 type PlanTeam struct {

@@ -48,6 +48,8 @@ func init() {
 
 	mysql.AutoMigrateBiz(
 		&models.Character{},
+		&models.TeamCharacter{},
+		&models.Team{},
 	)
 }
 
@@ -62,9 +64,13 @@ func main() {
 	api := engine.Group("/api")
 
 	api.GET("/team", controller.TeamController.Index)
+	api.POST("/team", controller.TeamController.Create)
+	api.GET("/team/:tid/character", controller.TeamController.IndexCharacter)
+	api.POST("/team/:tid/character", controller.TeamController.CreateCharacter)
 
 	api.GET("/character", controller.CharacterController.Index)
 	api.POST("/character", controller.CharacterController.Create)
+	api.PUT("/character/:id", controller.CharacterController.Update)
 
 	engine.Run(":9099")
 }

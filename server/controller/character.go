@@ -65,3 +65,32 @@ func (_ *_Character) Create(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, args)
 }
+
+func (_ *_Character) Update(c *gin.Context) {
+	var (
+		log        = logger.New(c)
+		id         = c.Param("id")
+		updateData = map[string]interface{}{}
+		Character  = models.Character{}
+	)
+
+	if err := c.BindJSON(&updateData); err != nil {
+		log.Error(err.Error())
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	database := mysql.GetBiz(log.ReqID()).Model(&Character).Select([]string{
+		"unitId",
+		"unitName",
+		"icon",
+		"position",
+	})
+	if err := database.Where("id = ?", id).Updates(updateData).Error; err != nil {
+		log.Error(err.Error())
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.Status(http.StatusOK)
+}
