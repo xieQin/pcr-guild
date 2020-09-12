@@ -1,0 +1,10 @@
+mysqls:
+  - host: 127.0.0.1
+    port: 3306
+    username: root
+    password:
+    max_idle: 10
+    max_open: 100
+    database: pcr
+    timeout: 5
+    default: biz

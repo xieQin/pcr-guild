@@ -1,23 +1,70 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"os"
+	"pcr-guild/components/config"
+	"pcr-guild/controller"
+	"pcr-guild/models"
 
-	m "pcr-guild/models"
+	"github.com/gin-gonic/gin"
+	"github.com/qbox/qvm-base/components/mysql"
 )
 
-func main() {
-	var (
-		teams = make([]m.Team, 0)
-	)
+// InitConfig 初始化配置
+func InitConfig(srcPath string) (err error) {
+	config.SetConfigType("yaml")
 
-	for i := 1; i <= 3; i++ {
-		fmt.Println(i)
-		teams = append(teams, m.Team{
-			BossNum:   1,
-			BossStage: 1,
-			Damage:    i * 50,
-		})
+	f, err := os.Open(srcPath)
+	if err != nil {
+		return
 	}
-	fmt.Print(teams)
+
+	defer f.Close()
+
+	err = config.ReadConfig(f)
+	if err != nil {
+		return
+	}
+
+	return
+}
+
+func init() {
+	var confPath string
+	flag.StringVar(&confPath, "f", "", "-f=/path/to/config")
+	flag.Parse()
+
+	err := InitConfig(confPath)
+	if err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s", err))
+	}
+
+	// 初始化数据库配置
+	var mysqlConfigs []*mysql.ConfigStructure
+	config.UnmarshalKey("mysqls", &mysqlConfigs)
+	mysql.Init(mysqlConfigs...)
+
+	mysql.AutoMigrateBiz(
+		&models.Character{},
+	)
+}
+
+func main() {
+	engine := gin.New()
+	engine.Use(gin.Recovery())
+
+	engine.NoRoute(func(c *gin.Context) {
+		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
+	})
+
+	api := engine.Group("/api")
+
+	api.GET("/team", controller.TeamController.Index)
+
+	api.GET("/character", controller.CharacterController.Index)
+	api.POST("/character", controller.CharacterController.Create)
+
+	engine.Run(":9099")
 }
