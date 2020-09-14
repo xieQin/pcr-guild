@@ -1,32 +1,51 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <nav-bar
+        title="公主连结"
+        @click-left="onClickLeft"
+        @click-right="onClickRight"
+      />
     </div>
-    <router-view/>
+    <div id="view">
+      <router-view />
+    </div>
+    <div id="tab">
+      <tabbar v-model="active">
+        <tabbar-item replace to="/" icon="home-o">首页</tabbar-item>
+        <tabbar-item replace to="/team" icon="friends-o">阵容</tabbar-item>
+        <tabbar-item replace to="/plan" icon="notes-o">排刀</tabbar-item>
+        <tabbar-item replace to="/me" icon="wap-home-o">我的</tabbar-item>
+      </tabbar>
+    </div>
   </div>
 </template>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator'
+import { NavBar, Tabbar, TabbarItem, Icon } from 'vant'
+
+@Component({
+  components: { NavBar, Tabbar, TabbarItem, Icon }
+})
+export default class App extends Vue {
+  active = 0
+  onClickLeft() {}
+  onClickRight() {}
 }
+</script>
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+<style lang="less" scoped>
+#view {
+  position: fixed;
+  width: 100%;
+  top: 46px;
+  bottom: 46px;
+  overflow: auto;
+}
+#tab {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 </style>

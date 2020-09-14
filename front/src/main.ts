@@ -4,6 +4,13 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import api from './apis/axios'
+import 'vant/lib/button/style'
+import './style.less'
+
+import { Icon, TabbarItem } from 'vant'
+
+Vue.use(Icon)
+Vue.use(TabbarItem)
 
 Vue.config.productionTip = false
 Vue.prototype.$api = api
