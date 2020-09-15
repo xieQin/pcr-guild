@@ -27,6 +27,11 @@ const routes: Array<RouteConfig> = [
     path: '/team',
     name: 'Team',
     component: () => import('../views/Team.vue')
+  },
+  {
+    path: '/addteam',
+    name: 'AddTeam',
+    component: () => import('../views/AddTeam.vue')
   }
 ]
 

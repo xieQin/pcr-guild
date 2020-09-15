@@ -12,10 +12,10 @@
     </div>
     <div id="tab">
       <tabbar v-model="active">
-        <tabbar-item replace to="/" icon="home-o">首页</tabbar-item>
+        <tabbar-item replace to="/" icon="wap-home-o">首页</tabbar-item>
         <tabbar-item replace to="/team" icon="friends-o">阵容</tabbar-item>
         <tabbar-item replace to="/plan" icon="notes-o">排刀</tabbar-item>
-        <tabbar-item replace to="/me" icon="wap-home-o">我的</tabbar-item>
+        <tabbar-item replace to="/me" icon="setting-o">我的</tabbar-item>
       </tabbar>
     </div>
   </div>
@@ -42,6 +42,8 @@ export default class App extends Vue {
   top: 46px;
   bottom: 46px;
   overflow: auto;
+  -webkit-overflow-scrolling : touch;
+  background-color: #f7f8fa;
 }
 #tab {
   position: fixed;

@@ -1,0 +1,303 @@
+import { ICharacter } from "@/models/character";
+
+export const MockCharacters: ICharacter[] = [{
+  "id": 197768,
+  "unit_id": 100901,
+  "unit_name": "杏奈",
+  "icon": "100931",
+  "position": 1
+}, {
+  "id": 197769,
+  "unit_id": 101001,
+  "unit_name": "真步",
+  "icon": "101031",
+  "position": 2
+}, {
+  "id": 197770,
+  "unit_id": 101101,
+  "unit_name": "璃乃",
+  "icon": "101131",
+  "position": 2
+}, {
+  "id": 197772,
+  "unit_id": 101201,
+  "unit_name": "初音",
+  "icon": "101231",
+  "position": 2
+}, {
+  "id": 197773,
+  "unit_id": 101801,
+  "unit_name": "伊绪",
+  "icon": "101831",
+  "position": 2
+}, {
+  "id": 197774,
+  "unit_id": 102801,
+  "unit_name": "咲恋",
+  "icon": "102831",
+  "position": 1
+}, {
+  "id": 197775,
+  "unit_id": 102901,
+  "unit_name": "望",
+  "icon": "102931",
+  "position": 0
+}, {
+  "id": 197777,
+  "unit_id": 103001,
+  "unit_name": "妮侬",
+  "icon": "103031",
+  "position": 1
+}, {
+  "id": 197778,
+  "unit_id": 103201,
+  "unit_name": "秋乃",
+  "icon": "103231",
+  "position": 0
+}, {
+  "id": 197780,
+  "unit_id": 104301,
+  "unit_name": "真琴",
+  "icon": "104331",
+  "position": 0
+}, {
+  "id": 197781,
+  "unit_id": 104401,
+  "unit_name": "伊莉亚",
+  "icon": "104431",
+  "position": 1
+}, {
+  "id": 197782,
+  "unit_id": 104701,
+  "unit_name": "纯",
+  "icon": "104731",
+  "position": 0
+}, {
+  "id": 197783,
+  "unit_id": 104901,
+  "unit_name": "静流",
+  "icon": "104931",
+  "position": 0
+}, {
+  "id": 197784,
+  "unit_id": 105301,
+  "unit_name": "莫妮卡",
+  "icon": "105331",
+  "position": 1
+}, {
+  "id": 197786,
+  "unit_id": 105701,
+  "unit_name": "姬塔",
+  "icon": "105731",
+  "position": 0
+}, {
+  "id": 197787,
+  "unit_id": 100601,
+  "unit_name": "茜里",
+  "icon": "100631",
+  "position": 1
+}, {
+  "id": 197788,
+  "unit_id": 100701,
+  "unit_name": "宫子",
+  "icon": "100731",
+  "position": 0
+}, {
+  "id": 197789,
+  "unit_id": 100801,
+  "unit_name": "雪",
+  "icon": "100831",
+  "position": 2
+}, {
+  "id": 197790,
+  "unit_id": 101501,
+  "unit_name": "美里",
+  "icon": "101511",
+  "position": 2
+}, {
+  "id": 197791,
+  "unit_id": 101601,
+  "unit_name": "铃奈",
+  "icon": "101631",
+  "position": 2
+}, {
+  "id": 197792,
+  "unit_id": 101701,
+  "unit_name": "香织",
+  "icon": "101731",
+  "position": 0
+}, {
+  "id": 197793,
+  "unit_id": 102001,
+  "unit_name": "美美",
+  "icon": "102031",
+  "position": 1
+}, {
+  "id": 197794,
+  "unit_id": 104201,
+  "unit_name": "千歌",
+  "icon": "104211",
+  "position": 2
+}, {
+  "id": 197795,
+  "unit_id": 103801,
+  "unit_name": "栞",
+  "icon": "103831",
+  "position": 2
+}, {
+  "id": 197796,
+  "unit_id": 103301,
+  "unit_name": "真阳",
+  "icon": "103311",
+  "position": 1
+}, {
+  "id": 197797,
+  "unit_id": 103101,
+  "unit_name": "忍",
+  "icon": "103131",
+  "position": 1
+}, {
+  "id": 197798,
+  "unit_id": 102701,
+  "unit_name": "惠理子",
+  "icon": "102731",
+  "position": 0
+}, {
+  "id": 197799,
+  "unit_id": 102601,
+  "unit_name": "铃",
+  "icon": "102611",
+  "position": 1
+}, {
+  "id": 197800,
+  "unit_id": 102301,
+  "unit_name": "绫音",
+  "icon": "102311",
+  "position": 0
+}, {
+  "id": 197801,
+  "unit_id": 104501,
+  "unit_name": "空花",
+  "icon": "104511",
+  "position": 0
+}, {
+  "id": 197802,
+  "unit_id": 104601,
+  "unit_name": "珠希",
+  "icon": "104631",
+  "position": 0
+}, {
+  "id": 197803,
+  "unit_id": 104801,
+  "unit_name": "美冬",
+  "icon": "104811",
+  "position": 1
+}, {
+  "id": 197804,
+  "unit_id": 105101,
+  "unit_name": "深月",
+  "icon": "105131",
+  "position": 1
+}, {
+  "id": 197805,
+  "unit_id": 105401,
+  "unit_name": "纺希",
+  "icon": "105411",
+  "position": 0
+}, {
+  "id": 197806,
+  "unit_id": 100101,
+  "unit_name": "日和莉",
+  "icon": "100131",
+  "position": 0
+}, {
+  "id": 197807,
+  "unit_id": 100201,
+  "unit_name": "优衣",
+  "icon": "100211",
+  "position": 2
+}, {
+  "id": 197808,
+  "unit_id": 100301,
+  "unit_name": "怜",
+  "icon": "100331",
+  "position": 0
+}, {
+  "id": 197809,
+  "unit_id": 103401,
+  "unit_name": "由加莉",
+  "icon": "103431",
+  "position": 1
+}, {
+  "id": 197810,
+  "unit_id": 107601,
+  "unit_name": "可可萝（夏日）",
+  "icon": "107631",
+  "position": 1
+}, {
+  "id": 197811,
+  "unit_id": 104001,
+  "unit_name": "碧",
+  "icon": "104011",
+  "position": 2
+}, {
+  "id": 197812,
+  "unit_id": 105001,
+  "unit_name": "美咲",
+  "icon": "105011",
+  "position": 2
+}, {
+  "id": 197813,
+  "unit_id": 100401,
+  "unit_name": "未奏希",
+  "icon": "100411",
+  "position": 0
+}, {
+  "id": 197814,
+  "unit_id": 105201,
+  "unit_name": "莉玛",
+  "icon": "105231",
+  "position": 0
+}, {
+  "id": 197815,
+  "unit_id": 102101,
+  "unit_name": "胡桃",
+  "icon": "102111",
+  "position": 0
+}, {
+  "id": 197816,
+  "unit_id": 105801,
+  "unit_name": "佩可莉姆",
+  "icon": "105831",
+  "position": 0
+}, {
+  "id": 197817,
+  "unit_id": 102201,
+  "unit_name": "依里",
+  "icon": "102211",
+  "position": 1
+}, {
+  "id": 197818,
+  "unit_id": 105901,
+  "unit_name": "可可萝",
+  "icon": "105931",
+  "position": 1
+}, {
+  "id": 197819,
+  "unit_id": 106001,
+  "unit_name": "凯露",
+  "icon": "106031",
+  "position": 2
+}, {
+  "id": 197820,
+  "unit_id": 102501,
+  "unit_name": "铃莓",
+  "icon": "102511",
+  "position": 2
+}, {
+  "id": 198959,
+  "unit_id": 107801,
+  "unit_name": "凯露（夏日）",
+  "icon": "107831",
+  "position": 2
+}]

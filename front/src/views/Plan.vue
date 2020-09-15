@@ -1,5 +1,5 @@
 <template>
-  <div class="plan">
-    <h1>This is an plan page</h1>
+  <div class="wrapper plan">
+    <h2>This is an plan page</h2>
   </div>
 </template>
