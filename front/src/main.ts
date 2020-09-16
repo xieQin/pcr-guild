@@ -7,7 +7,7 @@ import api from './apis/axios'
 import 'vant/lib/button/style'
 import './style.less'
 
-import { Col, Row, Icon, TabbarItem, Button, Form, Field, RadioGroup, Radio, Stepper, Step, Steps, Cell, CellGroup } from 'vant'
+import { Lazyload, Col, Row, Icon, TabbarItem, Button, Form, Field, RadioGroup, Radio, Stepper, Step, Steps, Cell, CellGroup, Picker, Popup, Swipe, SwipeItem } from 'vant'
 
 Vue.use(CellGroup)
 Vue.use(Cell)
@@ -23,6 +23,11 @@ Vue.use(Radio)
 Vue.use(Stepper)
 Vue.use(Step)
 Vue.use(Steps)
+Vue.use(Picker)
+Vue.use(Popup)
+Vue.use(Swipe)
+Vue.use(SwipeItem)
+Vue.use(Lazyload)
 
 Vue.config.productionTip = false
 Vue.prototype.$api = api

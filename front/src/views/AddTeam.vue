@@ -59,12 +59,32 @@
         </van-col>
         <van-col span="4" @click="addTeamCharacter(5)">
           <div class="add-team-character">
-            <img width="50" height="50" :src="`https://pcr-1252403488.file.myqcloud.com/icon/unit/104331.webp`" alt="">
+            <img width="50" height="50" :src="`https://pcredivewiki.tw/static/images/unit/icon_unit_104331.png`" alt="">
           </div>
         </van-col>
       </van-row>
     </div>
     <van-form v-if="is_add_character">
+      <van-field
+        readonly
+        clickable
+        v-model="unit_name"
+        name="picker"
+        label="角色"
+        placeholder="选择角色"
+        @click="showPicker = true"
+      />
+      <van-popup v-model:show="showPicker" position="bottom">
+        <van-picker
+          :show-toolbar="true"
+          cancel-button-text="取消"
+          title="请选择角色"
+          :columns="columns"
+          @confirm="onConfirm"
+          @change="onChange"
+          @cancel="showPicker = false"
+        />
+      </van-popup>
       <van-field
         v-model="level"
         name="等级"
@@ -88,6 +108,22 @@
         label="Rank"
         placeholder="角色Rank"
         :rules="[{ required: false, message: '请填写Rank' }]"
+      />
+      <van-field
+        v-model="love_level"
+        name="LoveLevel"
+        type="number"
+        label="好感度"
+        placeholder="角色好感度"
+        :rules="[{ required: false, message: '请填写好感度' }]"
+      />
+      <van-field
+        v-model="unique_equip_rank"
+        name="unique_equip_rank"
+        type="number"
+        label="专武等级"
+        placeholder="角色专武等级"
+        :rules="[{ required: false, message: '请填写专武等级' }]"
       />
     </van-form>
     <div style="margin-top: 16px;">
@@ -126,12 +162,14 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { Form, Field, RadioGroup, Radio, Stepper, Step, Steps, Col, Row } from 'vant'
+import { Form, Field, RadioGroup, Radio, Stepper, Step, Steps, Col, Row, Picker, Popup } from 'vant'
+import { MockCharacters } from '../mock/characters'
 
 @Component({
-  components: { Form, Field, RadioGroup, Radio, Stepper, Step, Steps, Col, Row }
+  components: { Form, Field, RadioGroup, Radio, Stepper, Step, Steps, Col, Row, Picker, Popup }
 })
 export default class AddTeam extends Vue {
+  showPicker = false
   active = 0
   team_name = ""
   target_damage = ""
@@ -139,12 +177,28 @@ export default class AddTeam extends Vue {
   boss_stage = 1
   context = ""
   team_characters = []
+  columns: string[] = []
 
   is_add_character = false
 
+  unique_equip_rank = ""
+  love_level = ""
+  unit_name = ""
   level = ""
   rarity = ""
   promotion = ""
+
+  mounted () {
+    const characters: string[] = []
+    MockCharacters.forEach(item => characters.push(item.unit_name))
+    this.columns = characters || []
+  }
+
+  onConfirm (v: any) {
+    this.unit_name = v
+    this.showPicker = false
+  }
+  onChange () {}
 
   addTeamCharacter(i: number) {
     this.is_add_character = !this.is_add_character
