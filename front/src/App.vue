@@ -36,8 +36,9 @@ export default class App extends Vue {
 
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange(newVal: Route) {
-    const indexRoutes = ['Home', 'Plan', 'Me', 'Team']
-    if (indexRoutes.indexOf(newVal.name) > -1) {
+    const indexRoutes: string[] = ['Home', 'Plan', 'Me', 'Team']
+    const name = !!newVal && newVal.name || ""
+    if (indexRoutes.indexOf(name) > -1) {
       this.isShowBack = false
     } else {
       this.isShowBack = true
